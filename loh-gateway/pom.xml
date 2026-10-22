@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.lethouse</groupId>
+        <artifactId>let-out-house-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>loh-gateway</artifactId>
+    <name>loh-gateway</name>
+    <description>Spring Cloud Gateway 网关：统一鉴权、租户校验、请求头透传、转发 Python 服务</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.lethouse</groupId>
+            <artifactId>loh-common-starter</artifactId>
+        </dependency>
+
+        <!--
+          网关是 WebFlux 技术栈：
+          1. 这里绝对不能出现 spring-boot-starter-web，否则 Spring Boot 优先装配 MVC，路由全部 404
+          2. 也绝对不能出现 mybatis-plus / mysql 驱动，网关不碰数据库
+        -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

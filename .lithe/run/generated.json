@@ -1,0 +1,379 @@
+{
+  "version": 2,
+  "generator": {
+    "fingerprint": "sha256:01c266aaf75bc2a531931169cdd50743a048965ff08f7ef64997b5ae940aa07c",
+    "inputs": {
+      "loh-agent-config/pom.xml": "sha256:846bd8421f7abce853ac3cf7c1026343c35d9464714e1632afb54007b148368b",
+      "loh-agent-config/src/main/java/com/lethouse/agent/AgentConfigApplication.java": "sha256:1eff57720c4b48dd937e10811d07c7b392f390cbd34d96a8c8ea41cdded1945d",
+      "loh-billing-log/pom.xml": "sha256:19c9b2082f413ba5758526963d582871560df3e4ba6a90e186efed5b1a60475d",
+      "loh-billing-log/src/main/java/com/lethouse/billing/BillingLogApplication.java": "sha256:1221cd082334324469a263e3593e52479b69423d98d1fc00da2d258b68dff2e6",
+      "loh-common-starter/pom.xml": "sha256:4f152f65a085e39af0ddf3135418a178637990d59406f25f5305221b6e040fa1",
+      "loh-common-starter/src/main/java/com/lethouse/common/context/TenantContext.java": "path",
+      "loh-common-starter/src/main/java/com/lethouse/common/context/TenantInfo.java": "path",
+      "loh-common-starter/src/main/java/com/lethouse/common/exception/TenantMissingException.java": "path",
+      "loh-common-starter/src/main/java/com/lethouse/common/filter/CommonWebConfig.java": "path",
+      "loh-common-starter/src/main/java/com/lethouse/common/filter/TenantFilter.java": "path",
+      "loh-common-starter/src/main/java/com/lethouse/common/interceptor/TenantCheckInterceptor.java": "path",
+      "loh-common-starter/src/main/java/com/lethouse/common/mybatis/CustomTenantLineHandler.java": "path",
+      "loh-common-starter/src/main/java/com/lethouse/common/mybatis/MybatisPlusConfig.java": "path",
+      "loh-common-starter/src/main/java/com/lethouse/common/result/R.java": "path",
+      "loh-conversation/pom.xml": "sha256:97e44708ce1764499e245e42b62b85cc86903f3b31006d9e41af8e28a1934475",
+      "loh-conversation/src/main/java/com/lethouse/conversation/ConversationApplication.java": "sha256:027cddf3a822fa08f6639d0c69d36acdf1a7342b9c01fa8b87b030137d5fdcc3",
+      "loh-gateway/pom.xml": "sha256:51f07b6c7970db9b53f59f626efad8b7d4c9ae2b09aa778a4a7d66d9de3da855",
+      "loh-gateway/src/main/java/com/lethouse/gateway/GatewayApplication.java": "sha256:baf82a28b6ceadf79edbb183af6915fcf6c48203d72e4a1e1bb3eebade290aac",
+      "loh-task-scheduler/pom.xml": "sha256:e26bfea2a1327e96269c34fe2e9d7f01c6a4390d6642794f1776531d5c36f26b",
+      "loh-task-scheduler/src/main/java/com/lethouse/task/TaskSchedulerApplication.java": "sha256:75fb630dd13ec1f4400880f9d517428d8161d4180b3fd2d88a3521f21fed17de",
+      "loh-user-tenant/pom.xml": "sha256:31aa5eafb5cf98f4633acaeda829794b33adfd03c6d897a47652ecab3d963d7d",
+      "loh-user-tenant/src/main/java/com/lethouse/user/UserTenantApplication.java": "sha256:7d7bc61c18a7e410d1fd9d3d0683e7a62de318aa796bcda52eedfadc95587e6a",
+      "pom.xml": "sha256:63b925785fcdf7fbb473f66ae440c9d9bdd7080f0ad1f6386b292289a749604b"
+    }
+  },
+  "configurations": [
+    {
+      "id": "java-main:com.lethouse.agent.AgentConfigApplication",
+      "name": "AgentConfigApplication",
+      "provider": "java.main",
+      "execution": "application",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "native",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-agent-config/src/main/java/com/lethouse/agent/AgentConfigApplication.java",
+          "sourceSet": "main"
+        },
+        "maven": {
+          "module": "loh-agent-config",
+          "mainClass": "com.lethouse.agent.AgentConfigApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-agent-config/src/main/java/com/lethouse/agent/AgentConfigApplication.java"
+    },
+    {
+      "id": "java-main:com.lethouse.billing.BillingLogApplication",
+      "name": "BillingLogApplication",
+      "provider": "java.main",
+      "execution": "application",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "native",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-billing-log/src/main/java/com/lethouse/billing/BillingLogApplication.java",
+          "sourceSet": "main"
+        },
+        "maven": {
+          "module": "loh-billing-log",
+          "mainClass": "com.lethouse.billing.BillingLogApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-billing-log/src/main/java/com/lethouse/billing/BillingLogApplication.java"
+    },
+    {
+      "id": "java-main:com.lethouse.conversation.ConversationApplication",
+      "name": "ConversationApplication",
+      "provider": "java.main",
+      "execution": "application",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "native",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-conversation/src/main/java/com/lethouse/conversation/ConversationApplication.java",
+          "sourceSet": "main"
+        },
+        "maven": {
+          "module": "loh-conversation",
+          "mainClass": "com.lethouse.conversation.ConversationApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-conversation/src/main/java/com/lethouse/conversation/ConversationApplication.java"
+    },
+    {
+      "id": "java-main:com.lethouse.gateway.GatewayApplication",
+      "name": "GatewayApplication",
+      "provider": "java.main",
+      "execution": "application",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "native",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-gateway/src/main/java/com/lethouse/gateway/GatewayApplication.java",
+          "sourceSet": "main"
+        },
+        "maven": {
+          "module": "loh-gateway",
+          "mainClass": "com.lethouse.gateway.GatewayApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-gateway/src/main/java/com/lethouse/gateway/GatewayApplication.java"
+    },
+    {
+      "id": "java-main:com.lethouse.task.TaskSchedulerApplication",
+      "name": "TaskSchedulerApplication",
+      "provider": "java.main",
+      "execution": "application",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "native",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-task-scheduler/src/main/java/com/lethouse/task/TaskSchedulerApplication.java",
+          "sourceSet": "main"
+        },
+        "maven": {
+          "module": "loh-task-scheduler",
+          "mainClass": "com.lethouse.task.TaskSchedulerApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-task-scheduler/src/main/java/com/lethouse/task/TaskSchedulerApplication.java"
+    },
+    {
+      "id": "java-main:com.lethouse.user.UserTenantApplication",
+      "name": "UserTenantApplication",
+      "provider": "java.main",
+      "execution": "application",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "native",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-user-tenant/src/main/java/com/lethouse/user/UserTenantApplication.java",
+          "sourceSet": "main"
+        },
+        "maven": {
+          "module": "loh-user-tenant",
+          "mainClass": "com.lethouse.user.UserTenantApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-user-tenant/src/main/java/com/lethouse/user/UserTenantApplication.java"
+    },
+    {
+      "id": "current-file",
+      "name": "Current File",
+      "provider": "java.current-file",
+      "execution": "application",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "native",
+      "toolchains": {
+        "java": "project-jdk"
+      },
+      "debug": {
+        "adapter": "jdwp"
+      },
+      "extensions": {
+        "maven": {
+          "module": "."
+        }
+      },
+      "disabled": false
+    },
+    {
+      "id": "spring-boot.maven:loh-agent-config",
+      "name": "loh-agent-config",
+      "provider": "spring-boot.maven",
+      "execution": "service",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "declared",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "debug": {
+        "adapter": "jdwp"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-agent-config/src/main/java/com/lethouse/agent/AgentConfigApplication.java"
+        },
+        "maven": {
+          "module": "loh-agent-config",
+          "mainClass": "com.lethouse.agent.AgentConfigApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-agent-config/pom.xml"
+    },
+    {
+      "id": "spring-boot.maven:loh-billing-log",
+      "name": "loh-billing-log",
+      "provider": "spring-boot.maven",
+      "execution": "service",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "declared",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "debug": {
+        "adapter": "jdwp"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-billing-log/src/main/java/com/lethouse/billing/BillingLogApplication.java"
+        },
+        "maven": {
+          "module": "loh-billing-log",
+          "mainClass": "com.lethouse.billing.BillingLogApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-billing-log/pom.xml"
+    },
+    {
+      "id": "spring-boot.maven:loh-conversation",
+      "name": "loh-conversation",
+      "provider": "spring-boot.maven",
+      "execution": "service",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "declared",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "debug": {
+        "adapter": "jdwp"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-conversation/src/main/java/com/lethouse/conversation/ConversationApplication.java"
+        },
+        "maven": {
+          "module": "loh-conversation",
+          "mainClass": "com.lethouse.conversation.ConversationApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-conversation/pom.xml"
+    },
+    {
+      "id": "spring-boot.maven:loh-gateway",
+      "name": "loh-gateway",
+      "provider": "spring-boot.maven",
+      "execution": "service",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "declared",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "debug": {
+        "adapter": "jdwp"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-gateway/src/main/java/com/lethouse/gateway/GatewayApplication.java"
+        },
+        "maven": {
+          "module": "loh-gateway",
+          "mainClass": "com.lethouse.gateway.GatewayApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-gateway/pom.xml"
+    },
+    {
+      "id": "spring-boot.maven:loh-task-scheduler",
+      "name": "loh-task-scheduler",
+      "provider": "spring-boot.maven",
+      "execution": "service",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "declared",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "debug": {
+        "adapter": "jdwp"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-task-scheduler/src/main/java/com/lethouse/task/TaskSchedulerApplication.java"
+        },
+        "maven": {
+          "module": "loh-task-scheduler",
+          "mainClass": "com.lethouse.task.TaskSchedulerApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-task-scheduler/pom.xml"
+    },
+    {
+      "id": "spring-boot.maven:loh-user-tenant",
+      "name": "loh-user-tenant",
+      "provider": "spring-boot.maven",
+      "execution": "service",
+      "args": [],
+      "cwd": ".",
+      "env": {},
+      "confidence": "declared",
+      "toolchains": {
+        "java": "project-jdk",
+        "maven": "project-maven"
+      },
+      "debug": {
+        "adapter": "jdwp"
+      },
+      "extensions": {
+        "java": {
+          "source": "loh-user-tenant/src/main/java/com/lethouse/user/UserTenantApplication.java"
+        },
+        "maven": {
+          "module": "loh-user-tenant",
+          "mainClass": "com.lethouse.user.UserTenantApplication"
+        }
+      },
+      "disabled": false,
+      "source": "loh-user-tenant/pom.xml"
+    }
+  ]
+}

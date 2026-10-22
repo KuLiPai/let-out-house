@@ -1,0 +1,45 @@
+# ---------- Java / Maven ----------
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.log
+
+# ---------- IDE ----------
+.idea/
+*.iml
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+.venv/
+.uv/
+uv.lock
+.pytest_cache/
+.ruff_cache/
+
+# ---------- 本地配置 / 密钥（严禁入库） ----------
+*.local.yml
+*.local.yaml
+application-local.yml
+.env
+.env.*
+secrets/
+*.pem
+*.key
+
+# ---------- 运行时数据 ----------
+logs/
+data/
+backup/
+*.pid
+
+# ---------- 系统 ----------
+.DS_Store
+Thumbs.db
