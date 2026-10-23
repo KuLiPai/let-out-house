@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+loh:
+  jwt:
+    secret: ${LOH_JWT_SECRET:12345678abcdefgh12345678abcdefgh}
+    expire-minutes: 120
+
+
 spring:
   application:
     name: loh-gateway
