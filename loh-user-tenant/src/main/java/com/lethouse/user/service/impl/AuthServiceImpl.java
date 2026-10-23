@@ -27,6 +27,10 @@ public class AuthServiceImpl implements AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
 
+
+    private static final String DUMMY_HASH="$2b$10$Xb3CLSevnhsZQx976NW1G.w/OOjVgUr.QqMzj6tg3GtYZgpDWmspi";
+
+
     @Override
     public LoginResponse login(LoginRequest req) {
         // ① 查租户（tenant 表在 IGNORE_TABLES，不拼 tenant_id)
@@ -36,22 +40,25 @@ public class AuthServiceImpl implements AuthService {
         if (tenant==null||tenant.getStatus()==null||tenant.getStatus()!=1) {
             throw new BusinessException(401,"租户不存在或已停用");
         }
-        // ③ 塞租户上下文 —— 下一步查 sys_user
+
         if (tenant.getExpireAt()!=null&&tenant.getExpireAt().isBefore(LocalDateTime.now())) {
             throw new BusinessException(401,"租户已过期，请联系管理员");
         }
+        // ③ 塞租户上下文 —— 下一步查 sys_user
         TenantContext.set(tenant.getId(),null,TenantContext.getRequestId());
         // ④ 查用户（拦截器自动拼 tenant_id）
         SysUser user = sysUserMapper.selectOne(
                 new LambdaQueryWrapper<SysUser>()
                         .eq(SysUser::getUsername, req.getUsername())
         );
-        if (user==null||!passwordEncoder.matches(req.getPassword(),user.getPasswordHash())) {
+        String storedHash = user == null ? DUMMY_HASH : user.getPasswordHash();
+        boolean passwordOk = passwordEncoder.matches(req.getPassword(), storedHash);
+        if (user==null||!passwordOk) {
             throw new BusinessException(401,"用户名或密码错误");
         }
 
         if (user.getStatus()==null||user.getStatus()!=1) {
-            throw new BusinessException(401,"账号已被停用");
+            throw new BusinessException(403,"账号已被停用");
         }
         SysUser patch = new SysUser();
         patch.setId(user.getId());
