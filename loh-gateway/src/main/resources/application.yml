@@ -16,7 +16,11 @@ spring:
       discovery:
         locator:
           enabled: false
-
+      routes:
+        - id: user-tenant
+          uri: http://127.0.0.1:8081
+          predicates:
+            - Path=/api/auth/**,/api/user/**,/api/tenant/**,/api/role/**
 management:
   endpoints:
     web:

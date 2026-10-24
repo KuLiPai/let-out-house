@@ -7,9 +7,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://127.0.0.1:3306/let_out_house?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false&rewriteBatchedStatements=true"
+    url: "jdbc:mysql://106.14.90.100:3306/let_out_house?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false&rewriteBatchedStatements=true"
     username: ${LOH_DB_USER:loh_app}
-    password: ${LOH_DB_PASSWORD:LohApp_2026_Dev}
+    password: ${LOH_DB_PASSWORD:666666}
     hikari:
       pool-name: ${spring.application.name}-hikari
       maximum-pool-size: 20
@@ -18,7 +18,7 @@ spring:
 
   data:
     redis:
-      host: 127.0.0.1
+      host: 106.14.90.100
       port: 6379
       password: ${LOH_REDIS_PASSWORD:666666}
       database: 0
