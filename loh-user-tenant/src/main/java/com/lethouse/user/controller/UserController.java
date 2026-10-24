@@ -1,6 +1,7 @@
 package com.lethouse.user.controller;
 
 import com.lethouse.common.context.TenantContext;
+import com.lethouse.common.exception.BusinessException;
 import com.lethouse.common.result.R;
 import com.lethouse.user.dto.UserInfoResponse;
 import com.lethouse.user.entity.SysUser;
@@ -20,8 +21,14 @@ public class UserController {
     @GetMapping("/info")
     public R<UserInfoResponse> info(){
         Long userId = TenantContext.getUserId();
+        if (userId==null) {
+            throw new BusinessException(401,"用户身份缺失");
+        }
         Long tenantId = TenantContext.getTenantId();
         SysUser user = sysUserMapper.selectById(userId);
+        if (user==null) {
+            throw new BusinessException(401,"用户不存在或已被禁用");
+        }
         UserInfoResponse userInfoResponse = new UserInfoResponse();
         userInfoResponse.setUserId(userId);
         userInfoResponse.setTenantId(tenantId);
