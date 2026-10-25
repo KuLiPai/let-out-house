@@ -1,1 +1,164 @@
 @import "tailwindcss";
+
+/*
+ * 把 mdui（Material Design 3）的动态配色变量映射成 Tailwind 颜色，
+ * 这样 bg-surface-container / text-on-surface-variant / border-outline-variant 等类
+ * 会随 setColorScheme / setTheme 实时变化。
+ */
+@theme inline {
+  --color-primary: rgb(var(--mdui-color-primary));
+  --color-on-primary: rgb(var(--mdui-color-on-primary));
+  --color-primary-container: rgb(var(--mdui-color-primary-container));
+  --color-on-primary-container: rgb(var(--mdui-color-on-primary-container));
+  --color-secondary: rgb(var(--mdui-color-secondary));
+  --color-on-secondary: rgb(var(--mdui-color-on-secondary));
+  --color-secondary-container: rgb(var(--mdui-color-secondary-container));
+  --color-on-secondary-container: rgb(var(--mdui-color-on-secondary-container));
+  --color-tertiary: rgb(var(--mdui-color-tertiary));
+  --color-on-tertiary: rgb(var(--mdui-color-on-tertiary));
+  --color-tertiary-container: rgb(var(--mdui-color-tertiary-container));
+  --color-on-tertiary-container: rgb(var(--mdui-color-on-tertiary-container));
+  --color-error: rgb(var(--mdui-color-error));
+  --color-on-error: rgb(var(--mdui-color-on-error));
+  --color-error-container: rgb(var(--mdui-color-error-container));
+  --color-on-error-container: rgb(var(--mdui-color-on-error-container));
+  --color-background: rgb(var(--mdui-color-background));
+  --color-on-background: rgb(var(--mdui-color-on-background));
+  --color-surface: rgb(var(--mdui-color-surface));
+  --color-surface-dim: rgb(var(--mdui-color-surface-dim));
+  --color-surface-bright: rgb(var(--mdui-color-surface-bright));
+  --color-surface-container-lowest: rgb(var(--mdui-color-surface-container-lowest));
+  --color-surface-container-low: rgb(var(--mdui-color-surface-container-low));
+  --color-surface-container: rgb(var(--mdui-color-surface-container));
+  --color-surface-container-high: rgb(var(--mdui-color-surface-container-high));
+  --color-surface-container-highest: rgb(var(--mdui-color-surface-container-highest));
+  --color-surface-variant: rgb(var(--mdui-color-surface-variant));
+  --color-on-surface: rgb(var(--mdui-color-on-surface));
+  --color-on-surface-variant: rgb(var(--mdui-color-on-surface-variant));
+  --color-outline: rgb(var(--mdui-color-outline));
+  --color-outline-variant: rgb(var(--mdui-color-outline-variant));
+  --color-inverse-surface: rgb(var(--mdui-color-inverse-surface));
+  --color-inverse-on-surface: rgb(var(--mdui-color-inverse-on-surface));
+}
+
+@theme {
+  /* MD3 断点：compact < 600 ≤ medium < 840 ≤ expanded < 1200 ≤ large */
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 840px;
+  --breakpoint-lg: 1200px;
+  --breakpoint-xl: 1600px;
+
+  --font-sans: "Roboto", "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC",
+    system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    @apply font-sans antialiased;
+    background: rgb(var(--mdui-color-background));
+    color: rgb(var(--mdui-color-on-background));
+    overscroll-behavior: none;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+
+  /* 原生 App 质感：默认禁止选中，输入框和可选文本除外 */
+  body {
+    user-select: none;
+  }
+  input,
+  textarea,
+  .selectable {
+    user-select: text;
+  }
+
+  /* 强制 mdui-icon 行高为 1 并居中内部字形，防止 Tailwind text-* 的 line-height 把图标往下推 */
+  mdui-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1 !important;
+    --tw-leading: 1;
+    vertical-align: middle;
+  }
+
+  /* 细滚动条，跟随主题 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--mdui-color-outline-variant)) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--mdui-color-outline-variant));
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer components {
+  /* 通用卡片：MD3 filled card（同步 --mdui-color-background 以便内部 outlined 输入框浮动标签背景一致） */
+  .m3-card {
+    @apply rounded-3xl bg-surface-container border border-outline-variant/40;
+    --mdui-color-background: var(--mdui-color-surface-container);
+  }
+  .m3-section-title {
+    @apply px-5 pt-4 pb-1 text-xs font-medium tracking-wide text-primary;
+  }
+  /* 页面主标题区 */
+  .page-title {
+    @apply text-2xl sm:text-3xl font-semibold tracking-tight text-on-surface;
+  }
+  .page-subtitle {
+    @apply mt-1 text-sm text-on-surface-variant;
+  }
+
+  /* mdui 列表在卡片内去掉自身背景，保持统一 */
+  .m3-card mdui-list {
+    padding: 0.25rem 0;
+  }
+  .m3-card mdui-list-item {
+    margin: 0 0.5rem;
+  }
+}
+
+/* 路由切换动画 */
+.page-enter-active,
+.page-leave-active {
+  transition:
+    opacity 0.22s ease,
+    transform 0.28s cubic-bezier(0.2, 0, 0, 1);
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active,
+  .page-leave-active {
+    transition: none;
+  }
+}
