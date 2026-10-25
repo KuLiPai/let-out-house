@@ -12,7 +12,18 @@ spring:
     name: loh-gateway
   cloud:
     gateway:
-      # 路由规则等 Python 三服务起来后再补，这里先保持空
+      # 跨域：Tauri(1420/tauri://localhost) 与浏览器直连网关都需要
+      globalcors:
+        # 必须开：否则 OPTIONS 预检会被 WebFlux 的 SimpleUrlHandlerMapping 吃掉，返回 404
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            # 用 allowedOriginPatterns 而不是 allowedOrigins：
+            # 后者配 "*" 时如果同时开 allowCredentials 会被 Spring 判为非法配置，启动直接报错
+            allowedOriginPatterns: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            maxAge: 3600
       discovery:
         locator:
           enabled: false
@@ -21,6 +32,14 @@ spring:
           uri: http://127.0.0.1:8081
           predicates:
             - Path=/api/auth/**,/api/user/**,/api/tenant/**,/api/role/**
+        - id: agent-config
+          uri: http://127.0.0.1:8082
+          predicates:
+            - Path=/api/agent/**
+        - id: conversation
+          uri: http://127.0.0.1:8083
+          predicates:
+            - Path=/api/conversation/**
 management:
   endpoints:
     web:
