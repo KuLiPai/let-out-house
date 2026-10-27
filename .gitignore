@@ -20,9 +20,9 @@ __pycache__/
 *.py[cod]
 .venv/
 .uv/
-uv.lock
 .pytest_cache/
 .ruff_cache/
+# 注意：uv.lock 必须入库，它锁定依赖版本，作用等同 package-lock.json
 
 # ---------- 本地配置 / 密钥（严禁入库） ----------
 *.local.yml
