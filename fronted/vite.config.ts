@@ -37,5 +37,14 @@ export default defineConfig(() => ({
       // 3. tell Vite to ignore watching `src-tauri`
       ignored: ["**/src-tauri/**"],
     },
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080", // 你的真实后端地址
+        changeOrigin: true, // 允许跨域
+        // 如果后端接口本身就带有 /api 前缀，则不需要 rewrite
+        // 如果后端真实路径没有 /api，可以取消注释下面这行：
+        // rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
 }));

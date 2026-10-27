@@ -1,36 +1,9 @@
-<script setup>
-import { ref, computed } from 'vue'
-import Home from './Home.vue'
-import Login from './Login.vue'
-
-const routes = {
-  '/': Home,
-  '/login': Login
-}
-
-const currentPath = ref(window.location.hash)
-let currentView = routes["/"]
-window.addEventListener('hashchange', () => {
-  currentPath.value = window.location.hash
-})
-
-const isLogin = localStorage.getItem("isLogin")
-if (isLogin === null) {
-  currentView = routes["/login"]
-}
-
-//
-// const currentView = computed(() => {
-//   return routes[currentPath.value.slice(1) || '/'] || NotFound
-// })
-
-
-
-</script>
-
 <template>
-  <!-- <a href="#/">Home</a> |
-  <a href="#/login">About</a> |
-  <a href="#/non-existent-path">Broken Link</a> -->
-  <component :is="currentView" />
+  <RouterView />
+  <ToastHost />
 </template>
+
+<script setup lang="ts">
+import ToastHost from "./components/ToastHost.vue";
+// 主题已在 main.ts 中通过 applyTheme() 初始化（默认夜间模式 + 动态配色）
+</script>
