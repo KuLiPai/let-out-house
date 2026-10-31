@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lethouse.common.context.TenantContext;
 import com.lethouse.common.exception.BusinessException;
+import org.springframework.web.client.RestClient;
 import com.lethouse.conversation.dto.ChatStreamRequest;
 import com.lethouse.conversation.entity.AgentKbRel;
 import com.lethouse.conversation.entity.AgentRef;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -48,6 +50,7 @@ public class ChatStreamServiceImpl implements ChatStreamService {
     private static final int MAX_HISTORY=20;
 
 
+    private final RestClient billingRestClient;
     private final HttpClient agentRuntimeClient;
     private final ConversationMapper conversationMapper;
     private final ObjectMapper objectMapper;
@@ -209,6 +212,7 @@ public class ChatStreamServiceImpl implements ChatStreamService {
                 message.setTraceId(MDC.get("traceId"));
                 message.setCitations(citations);
                 messageMapper.insert(message);
+
             }
             conversationMapper.update(null, new LambdaUpdateWrapper<Conversation>()
                     .eq(Conversation::getId, conversationId)
@@ -216,6 +220,29 @@ public class ChatStreamServiceImpl implements ChatStreamService {
                     .set("新对话".equals(conversation.getTitle()), Conversation::getTitle, abbreviate(query, MAX_WIDTH)));
         }catch (Exception e){
             log.error("对话落库失败：conversationId={}",conversationId,e);
+        }
+    }
+
+    private void reportUsage(Message message,AgentRef agent,Long conversationId){
+        try {
+            Map<String, Object> body = new HashMap<>();
+            body.put("messageId",message.getId());
+            body.put("conversationId",conversationId);
+            body.put("agentId",agent.getId());
+            body.put("userId",TenantContext.getUserId());
+            body.put("modelName",agent.getModelName());
+            body.put("inputTokens",message.getTokenInput()==null?0:message.getTokenInput());
+            body.put("outputTokens",message.getTokenOutput()==null?0:message.getTokenOutput());
+            body.put("requestId",TenantContext.getRequestId());
+
+            billingRestClient.post().uri("/api/billing/usage")
+                    .header("X-Tenant-Id", String.valueOf(TenantContext.getTenantId()))
+                    .header("X-Trace-Id", MDC.get("traceId"))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(body).retrieve().toBodilessEntity();
+        } catch (Exception e) {
+            // 计费是旁路能力：失败只记日志，绝不影响已经成功的对话
+            log.warn("用量上报失败（不影响对话）：messageId={}, err={}", message.getId(), e.getMessage());
         }
     }
 

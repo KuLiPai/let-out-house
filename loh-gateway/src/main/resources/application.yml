@@ -40,6 +40,11 @@ spring:
           uri: http://127.0.0.1:8083
           predicates:
             - Path=/api/conversation/**
+        - id: billing-log
+          uri: http://127.0.0.1:8085
+          predicates:
+            - Path=/api/billing/**
+
 management:
   endpoints:
     web:

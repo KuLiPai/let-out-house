@@ -59,4 +59,5 @@ loh:
   agent-runtime:
     base-url: http://127.0.0.1:8001
     connect-timeout-seconds: 5
-
+  billing:
+    base-url: http://127.0.0.1:8085

@@ -13,7 +13,9 @@ public class CustomTenantLineHandler implements TenantLineHandler {
 
     private static final Set<String> IGNORE_TABLES = Set.of(
             "tenant",
-            "sys_permission"
+            "sys_permission",
+            // 平台级单价字典，没有 tenant_id 列
+            "model_price"
     );
     @Override
     public Expression getTenantId() {
