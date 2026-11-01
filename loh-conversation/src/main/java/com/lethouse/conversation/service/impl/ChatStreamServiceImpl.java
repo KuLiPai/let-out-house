@@ -162,7 +162,7 @@ public class ChatStreamServiceImpl implements ChatStreamService {
             interrupted=true;
             log.debug("SSE流被中断：conversationId={}",conversationId);
         }finally {
-            persistTurn(conversationId,conversation,request.getQuery(),endContent!=null?endContent:collected.toString(),tokenIn,tokenOut,citationsJson,interrupted);
+            persistTurn(conversationId,conversation,request.getQuery(),endContent!=null?endContent:collected.toString(),tokenIn,tokenOut,citationsJson,interrupted,agent);
         }
     }
 
@@ -196,7 +196,7 @@ public class ChatStreamServiceImpl implements ChatStreamService {
         }
     }
 
-    private void persistTurn(Long conversationId,Conversation conversation,String query,String answer,Integer tokenIn,Integer tokenOut,String citations,boolean interrupted){
+    private void persistTurn(Long conversationId,Conversation conversation,String query,String answer,Integer tokenIn,Integer tokenOut,String citations,boolean interrupted,AgentRef agent){
 
         try {
             boolean hasAnswer = StringUtils.hasText(answer);
@@ -212,6 +212,8 @@ public class ChatStreamServiceImpl implements ChatStreamService {
                 message.setTraceId(MDC.get("traceId"));
                 message.setCitations(citations);
                 messageMapper.insert(message);
+                // 计费上报（旁路能力，内部自行吞异常，不影响对话）
+                reportUsage(message, agent, conversationId);
 
             }
             conversationMapper.update(null, new LambdaUpdateWrapper<Conversation>()

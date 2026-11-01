@@ -12,7 +12,6 @@ public interface TokenUsageLogMapper extends BaseMapper<TokenUsageLog> {
             "COALESCE(SUM(output_tokens),0) AS totalOutputTokens, " +
             "COALESCE(SUM(total_cost),0) AS totalCost, COUNT(*) AS callCount " +
             "FROM token_usage_log WHERE tenant_id = #{tenantId} " +
-            "AND (#{from} IS NULL OR created_at >= #{from}) " +
-            "AND (#{to} IS NULL OR created_at < #{to})")
+            "AND created_at >= #{from} AND created_at < #{to}")
     UsageSummaryResponse summarize(@Param("tenantId")Long tenantId,@Param("from") String from,@Param("to")String to);
 }

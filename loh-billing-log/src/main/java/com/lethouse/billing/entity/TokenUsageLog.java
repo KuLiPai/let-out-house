@@ -19,8 +19,8 @@ public class TokenUsageLog {
     private Long conversationId;
     private Long messageId;
     private String modelName;
-    private Integer inputToken;
-    private Integer outputToken;
+    private Integer inputTokens;
+    private Integer outputTokens;
     private BigDecimal totalCost;
     private BigDecimal inputCost;
     private BigDecimal outputCost;

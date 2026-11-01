@@ -1,4 +1,4 @@
-# 前端接口文档（登录 / Agent 配置 / 会话 / 流式对话 / 知识库文档）
+# 前端接口文档（登录 / Agent 配置 / 会话 / 流式对话 / 知识库文档 / 计费账单）
 
 > 适用版本：Java 控制面 v1（网关 8080）
 > 后端已完成：登录、用户信息、Agent 配置 CRUD、会话 CRUD、SSE 流式对话（含 RAG 引用来源）、知识库文档上传/列表/删除
@@ -672,3 +672,67 @@ else if (data.parseStatus === 3) toast(`解析失败：${data.failReason}`, 'err
 - 上传区：点选 + 拖拽，提交时显示上传进度（`onUploadProgress`），完成后按 `parseStatus` 提示；
 - 列表区：文件名 / 大小 / 片段数 / 状态徽标（待解析灰、解析中蓝、完成绿、失败红）+ 删除按钮；
 - 失败行：`failReason` 用 tooltip 或行内小字展示，提供"重新上传"（同名覆盖即可）。
+
+---
+
+## 九、计费账单（已实现）
+
+> 服务：`loh-billing-log`（8085），网关路径 `/api/billing`。
+> 均为查询接口，需要 `Authorization: Bearer <token>`；租户由网关从 token 解出，前端不必传 `X-Tenant-Id`。
+
+### 9.1 用量汇总
+
+**GET `/api/billing/summary?from=2026-11-01 00:00:00&to=2026-12-01 00:00:00`**
+
+`from` / `to` 均可省略（省略即全时段），格式 `yyyy-MM-dd HH:mm:ss`，左闭右开。
+
+```json
+{
+  "code": 0, "msg": "success",
+  "data": {
+    "totalInputTokens": 6182,
+    "totalOutputTokens": 5528,
+    "totalCost": 0.001800,
+    "callCount": 4
+  },
+  "traceId": "..."
+}
+```
+
+| 字段 | 说明 |
+|---|---|
+| `totalInputTokens` | 输入 token 合计 |
+| `totalOutputTokens` | 输出 token 合计 |
+| `totalCost` | 费用合计（元，6 位小数） |
+| `callCount` | 计费次数（= 成功回答条数） |
+
+### 9.2 用量明细
+
+**GET `/api/billing/detail?pageNum=1&pageSize=10`**（`pageSize` 上限 100，按 id 倒序）
+
+```json
+{
+  "code": 0, "msg": "success",
+  "data": {
+    "list": [{
+      "id": 4,
+      "tenantId": 1, "userId": 1, "agentId": 1, "conversationId": 51,
+      "messageId": 120,
+      "modelName": "glm-4-flash",
+      "inputTokens": 182, "outputTokens": 28,
+      "inputCost": 0.000000, "outputCost": 0.000000, "totalCost": 0.000000,
+      "requestId": null,
+      "createdAt": "2026-11-01T02:30:41.220"
+    }],
+    "total": 4, "pageNum": 1, "pageSize": 10
+  },
+  "traceId": "..."
+}
+```
+
+### 9.3 前端展示要点
+
+- **免费模型（`glm-4-flash` 等）`totalCost` 恒为 0**，但流水照记 —— 页面别把"0 元"当成"没计费"，`callCount` 才是调用次数；
+- 金额精度 6 位小数，展示时按需 `toFixed(4)`，别四舍五入成"0"；
+- 单位是**元**，不是分；
+- 明细里 `modelName` 可能出现未配价模型（如历史 `qwen-max`），其 `totalCost` 为 0，属正常降级行为。

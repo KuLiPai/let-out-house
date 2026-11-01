@@ -27,13 +27,13 @@ public class BillingController {
     public R<UsageSummaryResponse> summary(@RequestParam(required = false)String from,
                                            @RequestParam(required = false)String to,
                                            @RequestHeader("X-Tenant-Id")Long tenantId){
-        return R.ok();
+        return R.ok(billingService.summary(tenantId, from, to));
     }
 
     @GetMapping("/detail")
     public R<PageResult<TokenUsageLog>> detail(@RequestParam(defaultValue = "1") int pageNum,
                                                @RequestParam(defaultValue = "10") int pageSize,
                                                @RequestHeader("X-Tenant-Id") Long tenantId){
-        return R.ok();
+        return R.ok(billingService.detail(tenantId, pageNum, pageSize));
     }
 }
