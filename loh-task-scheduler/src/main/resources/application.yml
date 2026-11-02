@@ -54,3 +54,8 @@ management:
 logging:
   level:
     com.lethouse: debug
+
+loh:
+  rag:
+    async-enabled: true          # 开关，出问题能一键回滚到同步
+    stream-key: loh:stream:rag-doc-parse

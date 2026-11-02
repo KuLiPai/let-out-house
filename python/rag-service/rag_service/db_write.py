@@ -46,3 +46,19 @@ def update_milvus_pks(pairs:list[tuple[int,int]])->None:
         conn.commit()
     finally:
         conn.close()
+
+
+def update_parse_status(document_id:int,tenant_id:int,status:int,chunk_count:int=0,fail_reason:str|None=None)->None:
+    """回写文档解析状态，0待解析，1解析中，2完成，3失败"""
+    conn=_write_conn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE document SET parse_status = %s ,chunk_count = %s,fail_reason = %s,"
+                "updated_at = CURRENT_TIMESTAMP(3) "
+                "WHERE id = %s AND tenant_id = %s",
+                [status,chunk_count,fail_reason,document_id,tenant_id]
+            )
+        conn.commit()
+    finally:
+        conn.close()

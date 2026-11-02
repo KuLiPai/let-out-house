@@ -32,6 +32,18 @@ class Settings(BaseSettings):
     chunk_overlap: int = 50        # 相邻块重叠字符数，防答案被切断
     embed_batch: int = 16          # 每次请求 embedding 的条数，控限流
 
+    # ---- Redis（入库任务队列：Java 生产 / Python 消费）----
+    redis_host: str = "106.14.90.100"
+    redis_port: int = 6379
+    redis_password: str = ""
+    redis_db: int = 0
+    stream_key: str = "loh:stream:rag-doc-parse"
+    consumer_group: str = "rag-workers"
+    dlq_key: str = "loh:stream:rag-doc-parse:dlq"
+    consumer_max_retry: int = 3
+    consumer_block_ms: int = 5000
+    consumer_claim_idle_ms: int = 60000
+
     # ---- 检索默认参数 ----
     default_top_k: int = 5
     max_top_k: int = 20

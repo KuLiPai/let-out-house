@@ -69,4 +69,7 @@ loh:
     storage-dir: ${LOH_STORAGE_DIR:D:/maven-project/let-out-house/data/documents}
     # 调 ingest 接口的超时（解析+向量化可能几十秒）
     ingest-timeout-seconds: 300
+    # 上传异步化：true=投递 Redis Stream 后立即返回；false=回滚到同步 HTTP 调用
+    async-enabled: true
+    stream-key: loh:stream:rag-doc-parse
 

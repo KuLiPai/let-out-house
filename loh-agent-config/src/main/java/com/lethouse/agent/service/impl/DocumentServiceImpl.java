@@ -9,6 +9,7 @@ import com.lethouse.agent.entity.KnowledgeBase;
 import com.lethouse.agent.mapper.DocumentMapper;
 import com.lethouse.agent.mapper.KnowledgeBaseMapper;
 import com.lethouse.agent.service.DocumentService;
+import com.lethouse.agent.service.RagTaskPublisher;
 import com.lethouse.common.context.TenantContext;
 import com.lethouse.common.exception.BusinessException;
 import com.lethouse.common.result.PageResult;
@@ -47,10 +48,18 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentMapper documentMapper;
     private final KnowledgeBaseMapper knowledgeBaseMapper;
     private final RestClient ragRestClient;
+    private final RagTaskPublisher ragTaskPublisher;
 
     /** 文件落盘根目录（Java 与 rag-service 需同机共享） */
     @Value("${loh.rag.storage-dir}")
     private String storageDir;
+
+    /**
+     * 上传异步化开关：true=投递stream立即返回：false同步调用http
+     */
+    @Value("${loh.rag.async-enabled}")
+    private boolean asyncEnabled;
+
 
     @Override
     public DocumentResponse upload(Long kbId, MultipartFile file) {
@@ -128,6 +137,22 @@ public class DocumentServiceImpl implements DocumentService {
                     .set(Document::getParseStatus, 0)
                     .set(Document::getFailReason, null));
         }
+
+        // ⑥-a 异步模式：投递消息后立即返回，解析由 rag-service 消费者完成
+        if (asyncEnabled) {
+            ragTaskPublisher.publishDocParse(doc.getId(), kbId, tenantId,
+                    target.toAbsolutePath().toString(), ext, originalName);
+            if (isNew) {
+                // 异步后 Java 拿不到解析结果，文档数在这里就加
+                knowledgeBaseMapper.update(null, new LambdaUpdateWrapper<KnowledgeBase>()
+                        .eq(KnowledgeBase::getId, kbId)
+                        .setSql("doc_count = doc_count + 1"));
+            }
+            log.info("文档已入队待解析：docId={}", doc.getId());
+            return toResponse(documentMapper.selectById(doc.getId()));
+        }
+
+        // ⑥-b 同步模式（async-enabled=false 时回滚用）
 
         // ⑥ 调 rag-service 解析入库
         int chunkCount = 0;
